@@ -132,4 +132,3 @@ Principii:
 
 ---
 
-✨ **Succes în etapa următoare – implementarea rețelei neuronale!**  
