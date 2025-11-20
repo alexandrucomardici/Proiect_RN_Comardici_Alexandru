@@ -47,7 +47,7 @@ Sistem Inteligent de Clasificare a Animalelor pe bază/
 
 ### 2.2 🧬 Caracteristicile dataset-ului
 
-* **Număr total de imagini:** ~10.000 (exemplu)
+* **Număr total de imagini:** ~1.000 (exemplu)
 * **Tipuri de date:** ✔ Imagini  
 * **Format fișiere:** ✔ PNG / ✔ JPG  
 
