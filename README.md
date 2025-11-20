@@ -17,7 +17,7 @@ Scopul etapei este pregătirea corectă a datelor pentru instruirea modelului RN
 ## 📂 1. Structura Repository-ului Github (Etapa 3)
 
 ```
-project-name/
+Sistem Inteligent de Clasificare a Animalelor pe bază/
 ├── README.md
 ├── docs/
 │   └── datasets/          # descriere seturi de date, surse, diagrame
