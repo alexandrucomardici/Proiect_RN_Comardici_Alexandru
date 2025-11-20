@@ -41,7 +41,7 @@ Sistem Inteligent de Clasificare a Animalelor pe bază/
 
 ### 2.1 📌 Sursa datelor
 
-* **Origine:** Imagini cu animale (pisici și câini), necesare pentru clasificare.  
+* **Origine:** Imagini cu animale (pisici și câini) preluate online, necesare pentru clasificare.  
 * **Modul de achiziție:** ✔ Fișier extern + ✔ Posibile completări programatice  
 * **Condițiile colectării:** Seturi de imagini în scenarii diverse: interior/exterior, calitate variabilă, talie diferită a câinilor, cu/ fără zgardă.
 
