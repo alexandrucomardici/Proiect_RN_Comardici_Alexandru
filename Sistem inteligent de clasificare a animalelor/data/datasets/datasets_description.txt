@@ -1,0 +1,52 @@
+# Descrierea dataset-ului
+
+Dataset-ul folosit în acest proiect conține imagini cu pisici și câini, împreună cu un fișier `annotations.csv` care conține etichetele aferente.
+
+## 📌 Coloanele din annotations.csv
+
+- **filename** — calea imaginii în dataset (ex: `cat/cat1.jpg`)
+- **species** — `cat` sau `dog`
+- **has_owner** — 0 = nu are stăpân, 1 = are stăpân
+- **size** — `small`, `medium`, `big`
+
+---
+
+## 📷 Distribuția imaginilor
+
+(Tabel generat de tine sau de model)
+
+- Total imagini: ~1000
+- Specii:
+  - Pisici: ~500
+  - Câini: ~500
+- Atribute:
+  - Small: ***
+  - Medium: ***
+  - Big: ***
+  - Has owner: ***%
+
+---
+
+## 🗂 Structura imaginilor
+
+Folderul `data/raw` conține imaginile brute.
+
+După preprocesare:
+- `data/train` conține imagini pentru antrenare (≈70%)
+- `data/validation` conține imagini pentru validare (≈15%)
+- `data/test` conține imagini pentru testare (≈15%)
+
+---
+
+## 🔧 Preprocesare folosită
+
+- redimensionare la **224x224**
+- normalizare pixeli (0-1)
+- augmentări: flip, rotate, zoom
+
+---
+
+## 📑 Notițe
+
+- toate imaginile trebuie să existe fizic în folderele indicate de `filename`
+- CSV-ul trebuie sincronizat cu folderele de imagini
