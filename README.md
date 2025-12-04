@@ -2,6 +2,7 @@
 
 
 
+<<<<<<< HEAD
 \*\*Disciplina:\*\* Rețele Neuronale  
 
 \*\*Instituție:\*\* POLITEHNICA București – FIIR  
@@ -187,11 +188,37 @@ Arhitectura aleasă este un \*\*State Machine pentru clasificare vizuală la cer
 \## 4. Structura Repository
 
 Sistem inteligent de clasificare a animalelor/
+=======
+Acest proiect implementează o rețea neuronală convoluțională multi-task capabilă să prezică:
+
+\- specia (cat / dog)
+
+\- dacă animalul are stăpân (yes / no)
+
+\- mărimea animalului (small / medium / big)
+
+
+
+Modelul folosește MobileNetV2 ca backbone și este antrenat pe un set de imagini etichetate.
+
+
+
+---------------------------------------------------------------------
+
+
+
+\## Structura proiectului
+
+
+
+project/
+>>>>>>> b09f42134bed8fc523d3793b4fa475efb6101989
 
 ├── README.md
 
 ├── docs/
 
+<<<<<<< HEAD
 │ ├── datasets/
 
 │ │ └── datasets\_description.md
@@ -232,10 +259,39 @@ Sistem inteligent de clasificare a animalelor/
 
 │   └──readme.txt
 
+=======
+│   └── datasets/
+
+│       └── datasets\_description.md
+
+├── data/
+
+│   ├── raw/
+
+│   ├── processed/
+
+│   ├── train/
+
+│   ├── validation/
+
+│   └── test/
+
+├── src/
+
+│   ├── preprocessing/
+
+│   ├── data\_acquisition/
+
+│   └── neural\_network/
+
+├── config/
+
+>>>>>>> b09f42134bed8fc523d3793b4fa475efb6101989
 └── requirements.txt
 
 
 
+<<<<<<< HEAD
 ---
 
 
@@ -349,4 +405,101 @@ python src/ui.py
 \- \[x] Screenshot demonstrativ în `docs/screenshots/ui\_demo.png`
 
 \- \[x] README în `src/app/` cu instrucțiuni lansare (comenzi exacte)
+=======
+---------------------------------------------------------------------
+
+
+
+\## Cum rulezi proiectul
+
+
+
+1\. Clonează repository-ul:
+
+&nbsp;  git clone <repo-url>
+
+
+
+2\. Instalează dependențele:
+
+&nbsp;  pip install -r requirements.txt
+
+
+
+3\. Rulează preprocesarea imaginilor (ex: redimensionare, split):
+
+&nbsp;  python src/preprocessing/resize.py
+
+&nbsp;  python src/preprocessing/split.py
+
+
+
+4\. Rulează antrenarea:
+
+&nbsp;  python src/app.ipynb
+
+
+
+5\. Rulează evaluarea:
+
+&nbsp;  python src/ui.py 
+
+
+
+---------------------------------------------------------------------
+
+
+
+\## Date de intrare
+
+
+
+Dataset-ul trebuie să conțină:
+
+\- imagini în foldere (cat/... , dog/...)
+
+\- un fișier annotations.csv cu:
+
+&nbsp; - filename
+
+&nbsp; - species
+
+&nbsp; - has\_owner
+
+&nbsp; - size
+
+
+
+---------------------------------------------------------------------
+
+
+
+\## Rezultate
+
+
+
+La finalul antrenării se generează:
+
+\- acuratețe pentru clasificarea speciei
+
+\- acuratețe pentru proprietar (0/1)
+
+\- acuratețe pentru mărime (small/medium/big)
+
+\- graficul evoluției loss-ului și acurateții
+
+\- modelul final salvat în .h5
+
+
+
+---------------------------------------------------------------------
+
+
+
+\## Autor
+
+
+
+Comardici Alexandru
+
 
