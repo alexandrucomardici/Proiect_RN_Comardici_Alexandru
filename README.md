@@ -2,7 +2,7 @@
 
 
 
-<<<<<<< HEAD
+
 \*\*Disciplina:\*\* Rețele Neuronale  
 
 \*\*Instituție:\*\* POLITEHNICA București – FIIR  
