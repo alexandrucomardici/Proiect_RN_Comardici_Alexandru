@@ -1,0 +1,6 @@
+Experiment _id	Modification	Accuracy	f1_score	notes
+E0	Baseline_model	0.96	0.96	Model initial
+E1	dropout	0.95	0.95	Overfitting usor
+E2	data_augumentation	0.97	0.96	Generalizare mai buna
+E3	confidence_threshold	0.94	0.97	Reducere false positives
+E4	augumentation_plus	0.97	0.97	Model final ales
