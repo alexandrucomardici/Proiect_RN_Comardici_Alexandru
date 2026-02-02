@@ -5,17 +5,28 @@ import tensorflow as tf
 import base64
 from io import BytesIO
 
-app = Flask(__name__)
+# --------------------------------------------------
+# App setup
+# --------------------------------------------------
 
-# Încarcă modelul
-try:
-    model = tf.keras.models.load_model("animal_detector.keras")
-except Exception as e:
-    print(f"Eroare la încărcarea modelului: {e}")
-    model = None
+app = Flask(__name__)
 
 IMG_SIZE = (224, 224)
 history = []
+
+# --------------------------------------------------
+# Load AI model
+# --------------------------------------------------
+
+try:
+    model = tf.keras.models.load_model("animal_detector.keras")
+except Exception as err:
+    print(f"[ERROR] Model load failed: {err}")
+    model = None
+
+# --------------------------------------------------
+# Frontend template
+# --------------------------------------------------
 
 HTML_PAGE = """
 <!DOCTYPE html>
@@ -25,6 +36,7 @@ HTML_PAGE = """
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
+/* --- THEME COLORS --- */
 :root {
     --bg-main: #0b0f1a;
     --card-bg: rgba(255,255,255,0.08);
@@ -34,6 +46,7 @@ HTML_PAGE = """
     --text-soft: #cfd3ff;
 }
 
+/* --- GLOBAL --- */
 body {
     min-height: 100vh;
     background:
@@ -45,11 +58,11 @@ body {
     overflow-x: hidden;
 }
 
-/* spacing */
-.col-left { padding-right: 30px; }
+/* --- LAYOUT --- */
+.col-left  { padding-right: 30px; }
 .col-right { padding-left: 30px; }
 
-/* TITLU */
+/* --- TITLE EFFECT --- */
 .blue-glow {
     background: linear-gradient(90deg, var(--accent1), var(--accent2));
     -webkit-background-clip: text;
@@ -58,7 +71,7 @@ body {
     letter-spacing: 1px;
 }
 
-/* CARD GLASS */
+/* --- GLASS CARD --- */
 .card {
     background: var(--card-bg);
     backdrop-filter: blur(18px);
@@ -77,13 +90,12 @@ body {
         inset 0 0 40px rgba(255,255,255,0.05);
 }
 
-/* BUTTON */
+/* --- BUTTONS --- */
 .btn-primary {
     background: linear-gradient(135deg, var(--accent1), var(--accent2));
     border: none;
     border-radius: 14px;
     font-weight: 600;
-    letter-spacing: .5px;
     box-shadow: 0 0 25px rgba(0,245,255,0.5);
 }
 
@@ -92,13 +104,12 @@ body {
     transform: scale(1.02);
 }
 
-/* PREVIEW */
+/* --- IMAGE PREVIEW --- */
 #previewBox {
     border: 2px dashed rgba(0,245,255,0.5);
     border-radius: 16px;
     padding: 25px;
     text-align: center;
-    color: var(--accent1);
     background: rgba(0,0,0,0.25);
 }
 
@@ -109,7 +120,7 @@ body {
     box-shadow: 0 0 35px rgba(0,245,255,0.45);
 }
 
-/* PROGRESS */
+/* --- PROGRESS BAR --- */
 .progress {
     background: rgba(255,255,255,0.1);
     border-radius: 20px;
@@ -121,7 +132,7 @@ body {
     box-shadow: 0 0 20px var(--accent1);
 }
 
-/* HISTORY */
+/* --- HISTORY --- */
 .history-img {
     width: 110px;
     height: 110px;
@@ -130,7 +141,7 @@ body {
     box-shadow: 0 0 18px rgba(0,245,255,0.45);
 }
 
-/* PROB BUTTON */
+/* --- PROB BUTTON --- */
 .btn-outline-info {
     border-radius: 12px;
     border-color: var(--accent1);
@@ -155,7 +166,7 @@ body {
 
 <div class="row gx-5">
 
-<!-- LEFT -->
+<!-- LEFT PANEL -->
 <div class="col-md-6 col-left">
 <div class="card p-4 mb-4">
 <form action="/predict" method="POST" enctype="multipart/form-data">
@@ -174,18 +185,20 @@ body {
 {% endif %}
 </div>
 
-<!-- RIGHT -->
+<!-- RIGHT PANEL -->
 <div class="col-md-6 col-right">
 {% if result %}
 <div class="card p-4">
 <h4 class="blue-glow mb-4">Prediction Details</h4>
 
-<p><strong class="blue-glow">Species:</strong>   <span style="color: white; font-weight: 700;"> {{ result.species }}</p>
-<p>
-<strong class="blue-glow">Status:</strong>   <span style="color: white; font-weight: 700;"> {{ result.owner_status }}
+<p><strong class="blue-glow">Species:</strong>
+<span style="color:white;font-weight:700;">{{ result.species }}</span></p>
 
-<button type="button"
-        class="btn btn-sm btn-outline-info ms-3"
+<p>
+<strong class="blue-glow">Status:</strong>
+<span style="color:white;font-weight:700;">{{ result.owner_status }}</span>
+
+<button class="btn btn-sm btn-outline-info ms-3"
         onclick="toggleProbability()"
         id="probToggleBtn">
 Show Probability
@@ -194,8 +207,10 @@ Show Probability
 
 <div id="probContainer" hidden class="mt-3">
 <p>
-<strong class="blue-glow">Owner Probability:</strong>  <span style="color: white; font-weight: 700;">
+<strong class="blue-glow">Owner Probability:</strong>
+<span style="color:white;font-weight:700;">
 {{ "%.2f"|format(result.owner_prob * 100) }}%
+</span>
 </p>
 
 <div class="progress mb-3">
@@ -204,7 +219,8 @@ Show Probability
 </div>
 
 {% if result.size %}
-<p><strong class="blue-glow">Size:</strong> <span style="color: white; font-weight: 700;"> {{ result.size }}</p>
+<p><strong class="blue-glow">Size:</strong>
+<span style="color:white;font-weight:700;">{{ result.size }}</span></p>
 {% endif %}
 </div>
 {% endif %}
@@ -216,7 +232,9 @@ Show Probability
 {% for item in history %}
 <div>
 <img src="{{ item.img }}" class="history-img">
-<p class="small text-center mt-1">{{ item.species }}</p>
+<p class="small text-center mt-1">
+<span style="color:white;font-weight:700;">{{ item.species }}</span>
+</p>
 </div>
 {% endfor %}
 </div>
@@ -229,12 +247,11 @@ Show Probability
 <script>
 function previewImage(event) {
     const reader = new FileReader();
-    reader.onload = function() {
+    reader.onload = () => {
         document.getElementById('previewBox').innerHTML =
-            `<img src="${reader.result}" class='img-preview'>`;
-        const s = document.getElementById('soundPredict');
-        if (s) s.play().catch(e=>{});
-    }
+            `<img src="${reader.result}" class="img-preview">`;
+        document.getElementById('soundPredict')?.play().catch(()=>{});
+    };
     reader.readAsDataURL(event.target.files[0]);
 }
 
@@ -245,10 +262,9 @@ function toggleProbability() {
     btn.textContent = box.hidden ? "Show Probability" : "Hide Probability";
 }
 
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", () => {
     {% if result %}
-    const s = document.getElementById('soundResult');
-    if (s) s.play().catch(e=>{});
+    document.getElementById('soundResult')?.play().catch(()=>{});
     {% endif %}
 });
 </script>
@@ -257,26 +273,32 @@ window.addEventListener("DOMContentLoaded", function() {
 </html>
 """
 
+# --------------------------------------------------
+# Routes
+# --------------------------------------------------
 
 @app.route("/")
 def index():
     return render_template_string(HTML_PAGE, history=history)
 
+
 @app.route("/predict", methods=["POST"])
 def predict():
+
     if model is None:
-        return render_template_string(HTML_PAGE, result=None, history=history)
+        return render_template_string(HTML_PAGE, history=history)
 
     file = request.files.get("image")
     if not file:
-        return render_template_string(HTML_PAGE, result=None, history=history)
+        return render_template_string(HTML_PAGE, history=history)
 
-    file_bytes = file.read()
-    img_stream = BytesIO(file_bytes)
-    img = Image.open(img_stream).convert("RGB").resize(IMG_SIZE)
-    arr = np.expand_dims(np.array(img) / 255.0, 0)
+    # Read and prepare image
+    raw_bytes = file.read()
+    image = Image.open(BytesIO(raw_bytes)).convert("RGB").resize(IMG_SIZE)
+    image_array = np.expand_dims(np.array(image) / 255.0, axis=0)
 
-    species_pred, owner_pred, size_pred = model.predict(arr, verbose=0)
+    # Model prediction
+    species_pred, owner_pred, size_pred = model.predict(image_array, verbose=0)
 
     species = "dog" if np.argmax(species_pred[0]) == 1 else "cat"
     owner_prob = float(owner_pred[0][0])
@@ -287,19 +309,26 @@ def predict():
         size_labels = ["small", "medium", "big"]
         size = size_labels[np.argmax(size_pred[0])]
 
-    result = type("obj", (object,), {
+    # Build result object
+    result = type("Result", (), {
         "species": species,
         "owner_prob": owner_prob,
         "owner_status": owner_status,
         "size": size
     })()
 
-    image_url = "data:image/jpeg;base64," + base64.b64encode(file_bytes).decode()
-    history.insert(0, {"img": image_url, "species": species})
-    if len(history) > 3:
-        history.pop()
+    image_url = "data:image/jpeg;base64," + base64.b64encode(raw_bytes).decode()
 
-    return render_template_string(HTML_PAGE, result=result, image_url=image_url, history=history)
+    history.insert(0, {"img": image_url, "species": species})
+    history[:] = history[:3]
+
+    return render_template_string(
+        HTML_PAGE,
+        result=result,
+        image_url=image_url,
+        history=history
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True)
